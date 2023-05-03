@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
-
 const fs = require('fs');
+const generateMarkDown = require("./generateMarkDown");
 
 const questions = [
     {
@@ -52,20 +52,18 @@ const questions = [
         type: 'list',
         name: 'license',
         message: 'Please select license type: ',
-        choices: ['MIT', 'BSD', 'EPL', 'CDDL', 'GPL', 'Apache'],
+        choices: ['MIT', 'BSD 3', 'GPL 3.0', 'APACHE 2.0', 'NONE'],
     },
 ];
 
-function writeToFile(data) {
-    const fileName = ();
-    fs.writeFile(fileName, data, (err) =>
-    err ? console.log(err) : console.log('Great! here is your README file. '));
-};
-
 function init() {
-    inquirer.prompt(questions).then((data) => {
-        writeToFile(generateMarkDown(data))
+    inquirer.prompt(questions)
+    .then((data) => {
+        const markdown = generateMarkDown(data);
+        fs.writeFile("README.md", markdown, (err) => 
+        err ? console.log(err) : console.log("success!!!")
+        );
     });
-};
+}
 
 init();
